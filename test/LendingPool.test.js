@@ -7,9 +7,14 @@ const AlphaToken = artifacts.require("./distribution/AlphaToken");
 const BNBToken = artifacts.require("./mock/BNBToken.sol");
 const truffleAssert = require("truffle-assertions");
 const BigNumber = require("bignumber.js");
-const {WAD} = require("./helper.js");
+const { WAD } = require("./helper.js");
 const chai = require("chai");
-const {expect, assert} = require("chai");
+const { expect, assert } = require("chai");
+
+chai.use(require('chai-bignumber')());
+
+
+BigNumber.config({ DECIMAL_PLACES: 0 });
 
 contract("LendingPool", (accounts) => {
   const [creator, alice, bob] = accounts;
@@ -98,7 +103,7 @@ contract("LendingPool", (accounts) => {
     const reservePercent = BigNumber(10).times(WAD);
 
     await truffleAssert.reverts(
-      lendingInstance.setReservePercent(reservePercent, {from: bob}),
+      lendingInstance.setReservePercent(reservePercent, { from: bob }),
       "Ownable: caller is not the owner"
     );
 
@@ -112,7 +117,7 @@ contract("LendingPool", (accounts) => {
   it(`Should set reserve percent by admin`, async () => {
     const defaultReservePercent = BigNumber(0.05).times(WAD);
     const expectedReservePercent = BigNumber(0.1).times(WAD);
-    const tx = await lendingInstance.setReservePercent(expectedReservePercent, {from: creator});
+    const tx = await lendingInstance.setReservePercent(expectedReservePercent, { from: creator });
     truffleAssert.eventEmitted(
       tx,
       "ReservePercentUpdated",

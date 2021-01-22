@@ -2,7 +2,7 @@ pragma solidity 0.6.11;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract DaiToken is ERC20("Dai Token", "DAI") {
+contract DAIToken is ERC20("Dai Token", "DAI") {
   constructor() public {}
 
   function mint(address _account, uint256 _amount) external {
